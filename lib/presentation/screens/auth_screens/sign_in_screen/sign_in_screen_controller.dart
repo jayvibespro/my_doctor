@@ -38,18 +38,7 @@ class SignInScreenController {
     }*/
   }
 
-  /*Future<void> signUp() async {
-     loadingDialog(context);
-    UserModel? newUser = await dataService.signUp(state.user!);
-    Get.back();
-    if (newUser != null) {
-      state.user = newUser;
-      Get.off(
-        () => const HomePage(),
-      );
-    }
-  }
-
+  /*
   Future<void> editProfile() async {
     loadingDialog(context);
     UserModel? newUser = await dataService.updateUser(state.user!);
@@ -69,11 +58,6 @@ class SignInScreenController {
     // }
   }
 
-  Future<void> resetPassword(String email) async {
-    loadingDialog(context);
-    await dataService.resetPassword(email);
-    Get.back();
-  }
 
   Future<void> signOut() async {
     loadingDialog(context);

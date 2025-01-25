@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
+import 'package:my_doctor/presentation/screens/auth_screens/reset_password_screen/reset_password_screen.dart';
 import 'package:my_doctor/presentation/screens/auth_screens/sign_in_screen/sign_in_screen_controller.dart';
 import 'package:flutter/services.dart';
 import 'package:my_doctor/presentation/screens/auth_screens/sign_up_screen/sign_up_screen.dart';
@@ -144,7 +145,14 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     CustomOutlineButton(
                       onPressed: () async {
-                        // await Get.to(() => const ResetPasswordPage());
+                        await Get.to(
+                          () => const ResetPasswordScreen(),
+                          transition: Transition.rightToLeft,
+                          curve: Curves.easeInOutBack,
+                          duration: const Duration(
+                            milliseconds: 1200,
+                          ),
+                        );
                       },
                       label: "Forgot password?",
                     ),

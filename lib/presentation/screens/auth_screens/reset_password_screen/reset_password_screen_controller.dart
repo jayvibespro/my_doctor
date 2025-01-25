@@ -11,13 +11,13 @@ import '../auth_state.dart';
 * */
 
 @injectable
-class SignUpScreenController {
+class ResetPasswordScreenController {
   late void Function(void Function()) setState;
   late BuildContext context;
   final AuthState state;
   late DataService dataService;
 
-  SignUpScreenController(this.state);
+  ResetPasswordScreenController(this.state);
 
   void initialize(
       void Function(void Function()) setState, BuildContext context) {
@@ -26,15 +26,9 @@ class SignUpScreenController {
     dataService = DataService();
   }
 
-  Future<void> signUp() async {
-    /*  loadingDialog(context);
-    UserModel? newUser = await dataService.signUp(state.user!);
-    Get.back();
-    if (newUser != null) {
-      state.user = newUser;
-      Get.off(
-            () => const HomePage(),
-      );
-    }*/
+  Future<void> resetPassword(String email) async {
+    /*loadingDialog(context);
+    await dataService.resetPassword(email);
+    Get.back();*/
   }
 }
