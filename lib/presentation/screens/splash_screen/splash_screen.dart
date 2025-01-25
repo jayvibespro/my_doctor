@@ -4,7 +4,7 @@ import 'package:my_doctor/presentation/screens/splash_screen/splash_screen_contr
 
 import '../../../core/di/di.dart';
 import '../../../core/utils/constants/colors.dart';
-import '../auth_screens/sign_in_screen.dart';
+import '../auth_screens/sign_in_screen/sign_in_screen.dart';
 
 /*
 * Created by Jackson Stephen, jacksonsteven436@gmail.com: 25|01|2025
@@ -66,12 +66,9 @@ class _SplashScreenState extends State<SplashScreen>
                       opacity: _logoTranslateAnimationController.value,
                       child: Transform.scale(
                         scale: _logoScaleAnimation.value,
-                        child: Hero(
-                          tag: "APP_LOGO",
-                          child: Image.asset(
-                            'assets/images/app_logo.png',
-                            width: 200,
-                          ),
+                        child: Image.asset(
+                          'assets/images/app_logo.png',
+                          width: 200,
                         ),
                       ),
                     ),

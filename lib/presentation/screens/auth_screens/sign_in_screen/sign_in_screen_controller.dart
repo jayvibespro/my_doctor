@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/services/data_service.dart';
+import '../../../../core/services/data_service.dart';
 
-import 'auth_state.dart';
+import '../auth_state.dart';
 
 /*
 * Created by Jackson Stephen, jacksonsteven436@gmail.com: 25|01|2025
