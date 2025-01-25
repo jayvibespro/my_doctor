@@ -13,6 +13,7 @@ import '../../../../core/models/user_model/user_model.dart';
 import '../../../components/custom_material_button.dart';
 import '../../../components/custom_outline_button.dart';
 import '../../../components/custom_text_field.dart';
+import '../../home_screen/home_screen.dart';
 
 /*
 * Created by Jackson Stephen, jacksonsteven436@gmail.com: 25|01|2025
@@ -131,14 +132,14 @@ class _SignInScreenState extends State<SignInScreen> {
                     CustomMaterialButton(
                       onPressed: () {
                         Get.to(
-                          () => const ProfileScreen(),
+                          () => const HomeScreen(),
                           transition: Transition.circularReveal,
                           curve: Curves.easeInOut,
                           duration: const Duration(
                             milliseconds: 1200,
                           ),
                         );
-
+                        return;
                         if (_formKey.currentState!.saveAndValidate()) {
                           _signInScreenController.state.user = UserModel(
                             email: _formKey.currentState?.value["email"].trim(),

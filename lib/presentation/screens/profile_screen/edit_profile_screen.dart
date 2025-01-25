@@ -75,11 +75,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       hint: "Phone Number",
                       name: "phoneNumber",
                       keyboard: TextInputType.phone,
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.integer(),
-                        FormBuilderValidators.maxLength(10),
-                      ]),
+                      validator: FormBuilderValidators.compose(
+                        [
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.integer(),
+                          FormBuilderValidators.maxLength(10),
+                        ],
+                      ),
                     ),
                     CustomMaterialButton(
                       onPressed: () {

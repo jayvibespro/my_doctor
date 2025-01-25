@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:my_doctor/presentation/screens/splash_screen/splash_screen_controller.dart';
 
 import '../../../core/di/di.dart';
@@ -43,40 +44,46 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: cPrimary,
+      value: SystemUiOverlayStyle(
+        statusBarColor: cPrimary.withOpacity(0.3),
         systemNavigationBarColor: cPrimary,
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.dark,
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
-        backgroundColor: cPrimary,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: AnimatedBuilder(
-                animation: _logoTranslateAnimation,
-                builder: (BuildContext context, Widget? child) {
-                  return Transform.translate(
-                    offset: Offset(0, _logoTranslateAnimation.value),
-                    child: Opacity(
-                      opacity: _logoTranslateAnimationController.value,
-                      child: Transform.scale(
-                        scale: _logoScaleAnimation.value,
-                        child: Image.asset(
-                          'assets/images/app_logo.png',
-                          width: 200,
-                        ),
+        backgroundColor: Colors.white,
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                cPrimary.withOpacity(0.3),
+                cPrimary,
+              ],
+            ),
+          ),
+          child: Center(
+            child: AnimatedBuilder(
+              animation: _logoTranslateAnimation,
+              builder: (BuildContext context, Widget? child) {
+                return Transform.translate(
+                  offset: Offset(0, _logoTranslateAnimation.value),
+                  child: Opacity(
+                    opacity: _logoTranslateAnimationController.value,
+                    child: Transform.scale(
+                      scale: _logoScaleAnimation.value,
+                      child: Image.asset(
+                        'assets/images/app_logo.png',
+                        width: 200,
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -145,9 +152,14 @@ class _SplashScreenState extends State<SplashScreen>
         ),
       );*/
     } else {
-      if (!mounted) return;
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const SignInScreen()));
+      Get.off(
+        () => const SignInScreen(),
+        transition: Transition.circularReveal,
+        curve: Curves.easeInOut,
+        duration: const Duration(
+          milliseconds: 1600,
+        ),
+      );
     }
   }
 }
