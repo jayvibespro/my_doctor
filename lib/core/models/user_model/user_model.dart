@@ -8,42 +8,30 @@ part 'user_model.g.dart';
 
 @JsonSerializable()
 class UserModel {
-  final int? id;
-  final int? companyId;
-  final String? companyName;
+  final String? id;
+  final String? createdAt;
+  final String? imageUrl;
   final String? fullName;
   final String? email;
   final String? gender;
   String? phoneNumber;
   String? password;
-
-  @JsonKey(name: 'username')
-  final String? userName;
-  String? currentPassword;
-  String? newPassword;
-  String? confirmPassword;
   final bool? isFirstLogin;
   final bool? isActive;
-
-  @JsonKey(name: 'roles')
-  final List<String>? roles;
+  final String? accountType;
 
   UserModel({
+    this.accountType,
     this.id,
-    this.companyId,
-    this.companyName,
+    this.createdAt,
+    this.imageUrl,
     this.fullName,
     this.email,
     this.gender,
     this.phoneNumber,
     this.password,
-    this.currentPassword,
-    this.newPassword,
-    this.confirmPassword,
-    this.userName,
     this.isFirstLogin,
     this.isActive,
-    this.roles,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

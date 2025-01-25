@@ -9,38 +9,34 @@ import '../models/user_model/user_model.dart';
 class SessionManager {
   Future<void> setUserData(UserModel data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('id', data.id ?? 0);
-    await prefs.setInt('company_id', data.companyId ?? 0);
-    await prefs.setString('company_Name', data.companyName ?? '');
+    await prefs.setString('id', data.id ?? "");
+    await prefs.setString('account_type', data.accountType ?? "");
+    await prefs.setString('image_url', data.imageUrl ?? '');
     await prefs.setString('full_name', data.fullName ?? '');
     await prefs.setString('email', data.email ?? '');
     await prefs.setString('phone_number', data.phoneNumber ?? '');
-    await prefs.setString('username', data.userName ?? '');
+    await prefs.setString('created_at', data.createdAt ?? '');
     await prefs.setBool('is_first_login', data.isFirstLogin ?? false);
     await prefs.setBool('is_active', data.isActive ?? false);
-    if (data.roles != null) {
-      await prefs.setStringList('roles', data.roles!);
-    }
   }
 
   Future<UserModel?> getUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? id = prefs.getInt('id');
-    if (id == null || id == 0) {
+    String? id = prefs.getString('id');
+    if (id == null || id == "") {
       return null;
     }
 
     return UserModel(
       id: id,
-      companyId: prefs.getInt('company_id'),
-      companyName: prefs.getString('company_name'),
+      accountType: prefs.getString('account_type'),
+      imageUrl: prefs.getString('image_url'),
       fullName: prefs.getString('full_name'),
       email: prefs.getString('email'),
       phoneNumber: prefs.getString('phone_number'),
-      userName: prefs.getString('username'),
       isFirstLogin: prefs.getBool('is_first_login'),
       isActive: prefs.getBool('is_active'),
-      roles: prefs.getStringList('roles'),
+      createdAt: prefs.getString('created_at'),
     );
   }
 

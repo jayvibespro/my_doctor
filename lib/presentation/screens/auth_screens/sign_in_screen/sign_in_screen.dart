@@ -7,6 +7,7 @@ import 'package:my_doctor/presentation/screens/auth_screens/reset_password_scree
 import 'package:my_doctor/presentation/screens/auth_screens/sign_in_screen/sign_in_screen_controller.dart';
 import 'package:flutter/services.dart';
 import 'package:my_doctor/presentation/screens/auth_screens/sign_up_screen/sign_up_screen.dart';
+import 'package:my_doctor/presentation/screens/profile_screen/profile_screen.dart';
 import '../../../../../core/di/di.dart';
 import '../../../../core/models/user_model/user_model.dart';
 import '../../../components/custom_material_button.dart';
@@ -129,6 +130,15 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     CustomMaterialButton(
                       onPressed: () {
+                        Get.to(
+                          () => const ProfileScreen(),
+                          transition: Transition.circularReveal,
+                          curve: Curves.easeInOut,
+                          duration: const Duration(
+                            milliseconds: 1200,
+                          ),
+                        );
+
                         if (_formKey.currentState!.saveAndValidate()) {
                           _signInScreenController.state.user = UserModel(
                             email: _formKey.currentState?.value["email"].trim(),
