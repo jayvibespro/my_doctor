@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'core/di/di.dart';
 import 'core/providers/theme_provider.dart';
 import 'core/utils/themes.dart';
+import 'firebase_options.dart';
 
 /*
 * Created by Jackson Stephen, jacksonsteven436@gmail.com: 25|01|2025
@@ -15,6 +17,9 @@ import 'core/utils/themes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await initDependencies();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
