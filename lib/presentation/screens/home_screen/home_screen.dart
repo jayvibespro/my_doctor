@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
+import 'package:my_doctor/presentation/screens/doctors_screens/doctors_screen.dart';
+import 'package:my_doctor/presentation/screens/patients_screen/patients_screen.dart';
 import 'package:my_doctor/presentation/screens/profile_screen/profile_screen.dart';
 
 import '../../components/booking_card.dart';
@@ -247,7 +249,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black,
                   size: 30,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Get.to(
+                    () => const PatientsScreen(),
+                    transition: Transition.rightToLeft,
+                    curve: Curves.easeInOutBack,
+                    duration: const Duration(
+                      milliseconds: 1200,
+                    ),
+                  );
+                },
                 label: 'Patient',
                 colors: [
                   cPrimary.withOpacity(0.1),
@@ -263,7 +274,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black,
                   size: 30,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Get.to(
+                    () => const DoctorsScreen(),
+                    transition: Transition.rightToLeft,
+                    curve: Curves.easeInOutBack,
+                    duration: const Duration(
+                      milliseconds: 1200,
+                    ),
+                  );
+                },
                 label: 'Doctor',
                 colors: [
                   cAccent.withOpacity(0.1),
@@ -297,13 +317,37 @@ class _HomeScreenState extends State<HomeScreen> {
           const BookingCard(),
           const BookingCard(),
           const BookingCard(),
-          const SectionHeader(
+          SectionHeader(
             title: 'Doctors',
+            onTap: () {
+              Get.to(
+                () => const DoctorsScreen(),
+                transition: Transition.rightToLeft,
+                curve: Curves.easeInOutBack,
+                duration: const Duration(
+                  milliseconds: 1200,
+                ),
+              );
+            },
           ),
-          const DoctorCard(),
-          const DoctorCard(),
-          const SectionHeader(
+          DoctorCard(
+            onTap: () {},
+          ),
+          DoctorCard(
+            onTap: () {},
+          ),
+          SectionHeader(
             title: 'Patients',
+            onTap: () {
+              Get.to(
+                () => const PatientsScreen(),
+                transition: Transition.rightToLeft,
+                curve: Curves.easeInOutBack,
+                duration: const Duration(
+                  milliseconds: 1200,
+                ),
+              );
+            },
           ),
           const PatientCard(),
           const PatientCard(),

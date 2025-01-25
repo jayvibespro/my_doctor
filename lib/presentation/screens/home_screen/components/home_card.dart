@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:my_doctor/core/utils/constants/colors.dart';
 
 class HomeCard extends StatelessWidget {
   final String label;
@@ -23,41 +22,45 @@ class HomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          gradient: LinearGradient(
-            begin: begin,
-            end: end,
-            colors: colors,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(15),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            gradient: LinearGradient(
+              begin: begin,
+              end: end,
+              colors: colors,
+            ),
           ),
-        ),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 30,
-        ),
-        child: Column(
-          children: [
-            icon,
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 14,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 30,
+          ),
+          child: Column(
+            children: [
+              icon,
+              const SizedBox(
+                height: 20,
               ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            const HeroIcon(
-              HeroIcons.arrowRight,
-              color: Colors.black,
-              size: 16,
-            ),
-          ],
+              Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              const HeroIcon(
+                HeroIcons.arrowRight,
+                color: Colors.black,
+                size: 16,
+              ),
+            ],
+          ),
         ),
       ),
     );

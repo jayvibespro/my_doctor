@@ -4,29 +4,25 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
 
-import '../../../../core/di/di.dart';
 import '../../components/custom_material_button.dart';
 import '../../components/custom_text_field.dart';
-import 'edit_profile_screen_controller.dart';
 
 /*
-* Created by Jackson Stephen, jacksonsteven436@gmail.com: 25|01|2025
+* Created by Jackson Stephen, jacksonsteven436@gmail.com: 26|01|2025
 * */
 
-class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+class CreateDoctorScreen extends StatefulWidget {
+  const CreateDoctorScreen({super.key});
 
   @override
-  State<EditProfileScreen> createState() => _EditProfileScreenState();
+  State<CreateDoctorScreen> createState() => _CreateDoctorScreenState();
 }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
-  final _editProfileScreenController = getIt<EditProfileScreenController>();
+class _CreateDoctorScreenState extends State<CreateDoctorScreen> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
   @override
   void initState() {
-    _editProfileScreenController.initialize(setState, context);
     super.initState();
   }
 
@@ -51,7 +47,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         backgroundColor: cBackground,
         appBar: AppBar(
           foregroundColor: Colors.white,
-          title: const Text("Edit Profile"),
+          title: const Text("Create Doctor"),
         ),
         body: ListView(
           children: [
@@ -62,22 +58,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomTextField(
-                      initialValue:
-                          _editProfileScreenController.state.user?.fullName,
+                    const CustomTextField(
+                      /*initialValue:
+                          _editProfileScreenController.state.user?.fullName,*/
                       hint: "Full Name",
                       name: "fullName",
                     ),
                     CustomTextField(
-                      readOnly: true,
-                      initialValue:
-                          _editProfileScreenController.state.user?.email,
+                      /*initialValue:
+                          _editProfileScreenController.state.user?.fullName,*/
                       hint: "Email",
                       name: "email",
+                      keyboard: TextInputType.emailAddress,
+                      validator: FormBuilderValidators.compose(
+                        [
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.email(),
+                        ],
+                      ),
                     ),
                     CustomTextField(
-                      initialValue:
-                          _editProfileScreenController.state.user?.phoneNumber,
+                      /*initialValue:
+                          _editProfileScreenController.state.user?.phoneNumber,*/
                       hint: "Phone Number",
                       name: "phoneNumber",
                       keyboard: TextInputType.phone,
@@ -89,16 +91,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ],
                       ),
                     ),
+                    const CustomTextField(
+                      /*initialValue:
+                          _editProfileScreenController.state.user?.fullName,*/
+                      hint: "Speciality",
+                      name: "speciality",
+                    ),
                     CustomMaterialButton(
                       onPressed: () {
                         if (_formKey.currentState!.saveAndValidate()) {
-                          _editProfileScreenController.state.user?.phoneNumber =
+                          /*_editProfileScreenController.state.user?.phoneNumber =
                               _formKey.currentState?.value["phoneNumber"]
                                   .trim();
-                          _editProfileScreenController.editProfile();
+                          _editProfileScreenController.editProfile();*/
                         }
                       },
-                      label: "Save Changes",
+                      label: "Create",
                     ),
                     const SizedBox(
                       height: 30,

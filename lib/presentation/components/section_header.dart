@@ -21,20 +21,28 @@ class SectionHeader extends StatelessWidget {
               ),
             ),
           ),
-          const Text(
-            'See All',
-            style: TextStyle(
-              color: cPrimary,
-              fontSize: 14,
+          InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(4),
+            child: const Row(
+              children: [
+                Text(
+                  'See All',
+                  style: TextStyle(
+                    color: cPrimary,
+                    fontSize: 14,
+                  ),
+                ),
+                SizedBox(
+                  width: 6,
+                ),
+                HeroIcon(
+                  HeroIcons.arrowRight,
+                  color: cPrimary,
+                  size: 16,
+                ),
+              ],
             ),
-          ),
-          const SizedBox(
-            width: 6,
-          ),
-          const HeroIcon(
-            HeroIcons.arrowRight,
-            color: cPrimary,
-            size: 16,
           ),
         ],
       ),
