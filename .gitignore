@@ -175,3 +175,5 @@ lcov.info
 # Misc
 *.swo
 *~
+*.firebase_options.dart
+
