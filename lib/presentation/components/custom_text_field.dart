@@ -68,7 +68,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: FormBuilderTextField(
         initialValue: widget.initialValue,
         textCapitalization:
-            widget.textCapitalization ?? TextCapitalization.words,
+            widget.textCapitalization ?? TextCapitalization.sentences,
         inputFormatters: widget.inputFormatters ?? [],
         focusNode: widget.focusNode,
         controller: widget.controller,

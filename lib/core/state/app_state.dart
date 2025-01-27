@@ -14,4 +14,5 @@ class AppState {
   List<UserModel> doctors = [];
   List<UserModel> patients = [];
   late UserModel selectedDoctor;
+  late BookingModel selectedBooking;
 }

@@ -37,7 +37,7 @@ class BookingModel {
     return {
       'patient_id': patientId,
       'patient_name': patientName,
-      'patient_phone': patientName,
+      'patient_phone': patientPhone,
       'doctor_id': doctorId,
       'doctor_name': doctorName,
       'doctor_phone': doctorPhone,

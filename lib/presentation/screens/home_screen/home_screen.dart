@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
+import 'package:my_doctor/presentation/screens/booking_screen/booking_details_screen.dart';
 import 'package:my_doctor/presentation/screens/booking_screen/booking_screen.dart';
 import 'package:my_doctor/presentation/screens/doctors_screens/doctors_screen.dart';
 import 'package:my_doctor/presentation/screens/home_screen/home_screen_controller.dart';
@@ -14,6 +15,7 @@ import '../../components/custom_loader.dart';
 import '../../components/doctor_card.dart';
 import '../../components/patient_card.dart';
 import '../../components/section_header.dart';
+import '../booking_screen/bookings_screen.dart';
 import 'components/home_card.dart';
 
 /*
@@ -170,7 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         color: cPrimary,
         onRefresh: () async {
-          return _homeScreenController.getUsers();
+          _homeScreenController.getUsers();
+          _homeScreenController.getBookings();
         },
         child: ListView(
           padding: const EdgeInsets.all(20),
@@ -349,7 +352,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.black,
                       size: 30,
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(
+                        () => const BookingsScreen(),
+                        transition: Transition.rightToLeft,
+                        curve: Curves.easeInOutBack,
+                        duration: const Duration(
+                          milliseconds: 1200,
+                        ),
+                      );
+                    },
                     label: 'Bookings',
                     colors: [
                       cYellow.withOpacity(0.1),
@@ -361,15 +373,42 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 20,
             ),
-            const SectionHeader(
+            SectionHeader(
               title: 'Recent Bookings',
+              onTap: () {
+                Get.to(
+                  () => const BookingsScreen(),
+                  transition: Transition.rightToLeft,
+                  curve: Curves.easeInOutBack,
+                  duration: const Duration(
+                    milliseconds: 1200,
+                  ),
+                );
+              },
             ),
             _homeScreenController.state.loading
                 ? const CustomLoader()
                 : Column(
                     children: _homeScreenController.appState.bookings
                         .map(
-                          (booking) => BookingCard(booking: booking),
+                          (booking) => BookingCard(
+                            booking: booking,
+                            onTap: () async {
+                              _homeScreenController.appState.selectedBooking =
+                                  booking;
+                              bool? result = await Get.to(
+                                () => const BookingDetailsScreen(),
+                                transition: Transition.rightToLeft,
+                                curve: Curves.easeInOutBack,
+                                duration: const Duration(
+                                  milliseconds: 1200,
+                                ),
+                              );
+                              if (result == true) {
+                                _homeScreenController.getBookings();
+                              }
+                            },
+                          ),
                         )
                         .toList(),
                   ),
@@ -397,10 +436,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               .map(
                                 (doctor) => DoctorCard(
                                   doctor: doctor,
-                                  onTap: () {
+                                  onTap: () async {
                                     _homeScreenController
                                         .appState.selectedDoctor = doctor;
-                                    Get.to(
+                                    bool? result = await Get.to(
                                       () => const BookingScreen(),
                                       transition: Transition.rightToLeft,
                                       curve: Curves.easeInOutBack,
@@ -408,6 +447,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         milliseconds: 1200,
                                       ),
                                     );
+                                    if (result == true) {
+                                      _homeScreenController.getBookings();
+                                    }
                                   },
                                 ),
                               )

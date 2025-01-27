@@ -42,10 +42,10 @@ class BookingScreenController {
       '11:00 am',
       '12:00 pm',
       '01:00 pm',
-      '08:00 pm',
-      '09:00 pm',
-      '10:00 pm',
-      '11:00 pm',
+      '02:00 pm',
+      '03:00 pm',
+      '04:00 pm',
+      '05:00 pm',
     ];
 
     state.timeSlots

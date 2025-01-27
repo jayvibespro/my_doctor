@@ -121,4 +121,36 @@ mixin BookingService {
       );
     }
   }
+
+  Future<ApiResponseModel<bool>> updateBooking(BookingModel booking) async {
+    try {
+      await _db.collection(fcBookings).doc(booking.id).update(booking.toMap());
+
+      return ApiResponseModel(
+        data: true,
+        statusCode: 200,
+        message: "Booking updated successfully",
+      );
+    } on FirebaseAuthException catch (e) {
+      if (kDebugMode) {
+        print("ERROR: ${e.message}");
+      }
+
+      return ApiResponseModel(
+        data: false,
+        statusCode: 500,
+        message: e.message ?? "An unknown error occurred.",
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print("Unexpected ERROR: $e");
+      }
+
+      return ApiResponseModel(
+        data: false,
+        statusCode: 500,
+        message: e.toString(),
+      );
+    }
+  }
 }
