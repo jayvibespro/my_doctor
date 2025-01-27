@@ -7,5 +7,6 @@ import 'package:my_doctor/core/models/time_slot_model.dart';
 
 @singleton
 class BookingState {
+  bool loading = false;
   List<TimeSlotModel> timeSlots = [];
 }

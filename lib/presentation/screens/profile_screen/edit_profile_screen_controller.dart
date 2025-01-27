@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/services/data_service.dart';
 import '../../../core/models/api_response_model.dart';
-import '../../../core/models/user_model/user_model.dart';
+import '../../../core/models/user_model.dart';
 import '../../../core/state/app_state.dart';
 import '../../../core/utils/session_manager.dart';
 import '../../components/loading_dialog.dart';

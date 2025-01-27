@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:my_doctor/presentation/screens/auth_screens/sign_up_screen/sign_up_screen.dart';
 import 'package:my_doctor/presentation/screens/profile_screen/profile_screen.dart';
 import '../../../../../core/di/di.dart';
-import '../../../../core/models/user_model/user_model.dart';
+import '../../../../core/models/user_model.dart';
 import '../../../components/custom_material_button.dart';
 import '../../../components/custom_outline_button.dart';
 import '../../../components/custom_text_field.dart';

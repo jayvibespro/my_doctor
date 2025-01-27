@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:my_doctor/presentation/screens/splash_screen/splash_screen.dart';
 
 import '../../../../core/models/api_response_model.dart';
-import '../../../../core/models/user_model/user_model.dart';
+import '../../../core/models/user_model.dart';
 import '../../../../core/services/data_service.dart';
 
 import '../../../../core/state/app_state.dart';
@@ -34,6 +34,33 @@ class HomeScreenController {
     _context = context;
     _dataService = DataService();
     _sessionManager = SessionManager();
+    getUsers();
+  }
+
+  Future<void> getUsers() async {
+    if (appState.doctors.isEmpty && appState.patients.isEmpty) {
+      state.loading = true;
+    }
+    _update();
+
+    ApiResponseModel<List<UserModel>?> response = await _dataService.getUsers();
+
+    if (response.success) {
+      appState.doctors =
+          response.data!.where((user) => user.accountType == "DOCTOR").toList();
+      appState.patients = response.data!
+          .where((user) => user.accountType == "PATIENT")
+          .toList();
+    } else {
+      if (!_context.mounted) return;
+      topSnackBar(
+        context: _context,
+        message: response.message,
+        snackBarType: SnackBarType.error,
+      );
+    }
+    state.loading = false;
+    _update();
   }
 
   Future<void> signOut() async {
@@ -61,37 +88,8 @@ class HomeScreenController {
     }
   }
 
-/*
-  Future<void> editProfile() async {
-    loadingDialog(context);
-    UserModel? newUser = await dataService.updateUser(state.user!);
-    Get.back();
-    if (newUser != null) {
-      state.user = newUser;
-      Get.back<bool>(result: true);
-    }
+  void _update() {
+    if (!_context.mounted) return;
+    _setState(() {});
   }
-
-
-
-  Future<void> getUser() async {
-    // if (state.user == null) {
-    //   state.user = await dataService.getUser();
-    //   setState(() {});
-    // }
-  }
-
-
-  Future<void> signOut() async {
-    loadingDialog(context);
-    await dataService.signOut();
-    Get.back();
-    Get.offAll(
-      () => const SplashPage(),
-    );
-  }
-
-  Future<bool> checkIsUserSignedIn() async {
-    return dataService.checkIsUserSignedIn();
-  }*/
 }

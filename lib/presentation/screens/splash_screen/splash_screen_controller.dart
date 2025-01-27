@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/models/user_model/user_model.dart';
+import '../../../core/models/user_model.dart';
 import '../../../core/services/data_service.dart';
 import '../../../core/state/app_state.dart';
 import '../../../core/utils/session_manager.dart';

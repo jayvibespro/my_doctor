@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/user_model/user_model.dart';
+import '../models/user_model.dart';
 
 /*
 * Created by Jackson Stephen, jacksonsteven436@gmail.com: 25|01|2025

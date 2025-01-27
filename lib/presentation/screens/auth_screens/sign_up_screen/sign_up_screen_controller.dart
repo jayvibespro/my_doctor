@@ -5,7 +5,7 @@ import 'package:my_doctor/core/models/api_response_model.dart';
 import 'package:my_doctor/core/state/app_state.dart';
 import 'package:my_doctor/presentation/components/top_snack_bar.dart';
 
-import '../../../../core/models/user_model/user_model.dart';
+import '../../../../core/models/user_model.dart';
 import '../../../../core/services/data_service.dart';
 
 import '../../../../core/utils/session_manager.dart';

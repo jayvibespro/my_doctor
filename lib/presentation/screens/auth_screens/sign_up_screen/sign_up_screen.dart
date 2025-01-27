@@ -6,7 +6,7 @@ import 'package:my_doctor/presentation/components/top_snack_bar.dart';
 import 'package:my_doctor/presentation/screens/auth_screens/sign_up_screen/sign_up_screen_controller.dart';
 
 import '../../../../core/di/di.dart';
-import '../../../../core/models/user_model/user_model.dart';
+import '../../../../core/models/user_model.dart';
 import '../../../../core/utils/constants/colors.dart';
 import '../../../components/chip_select.dart';
 import '../../../components/custom_material_button.dart';

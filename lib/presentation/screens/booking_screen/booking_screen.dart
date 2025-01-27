@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:my_doctor/core/utils/app_launcher_util.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
+import 'package:my_doctor/core/utils/string_utils.dart';
+import 'package:my_doctor/presentation/components/custom_loader.dart';
 import 'package:my_doctor/presentation/components/custom_material_button.dart';
 import 'package:my_doctor/presentation/components/custom_text_field.dart';
 import 'package:my_doctor/presentation/screens/booking_screen/booking_screen_controller.dart';
@@ -22,8 +26,20 @@ class BookingScreen extends StatefulWidget {
 
 class _BookingScreenState extends State<BookingScreen> {
   final _bookingScreenController = getIt<BookingScreenController>();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   String selectedTime = '';
   DateTime? selectedDate;
+
+  @override
+  void initState() {
+    _bookingScreenController.initialize(setState, context);
+    _bookingScreenController.getBookingsByDateAndDoctor(
+        StringUtils.ymdDateFormatter(DateTime.now(), pattern: 'dd-MM-yyy'));
+    dateController.text =
+        StringUtils.ymdDateFormatter(DateTime.now(), pattern: 'dd-MM-yyy');
+    super.initState();
+  }
 
   Future<void> _openDatePicker() async {
     DateTime today = DateTime.now();
@@ -56,14 +72,13 @@ class _BookingScreenState extends State<BookingScreen> {
     if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
         selectedDate = pickedDate;
+
+        dateController.text =
+            StringUtils.ymdDateFormatter(pickedDate, pattern: 'dd-MM-yyy');
+        _bookingScreenController
+            .getBookingsByDateAndDoctor(dateController.text);
       });
     }
-  }
-
-  @override
-  void initState() {
-    _bookingScreenController.initialize(setState, context);
-    super.initState();
   }
 
   @override
@@ -74,19 +89,18 @@ class _BookingScreenState extends State<BookingScreen> {
         foregroundColor: Colors.white,
         title: const Text('Book an Appointment'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Row(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 20, 20, 10),
+            child: Row(
               children: [
-                HeroIcon(
+                const HeroIcon(
                   HeroIcons.userCircle,
                   size: 50,
                   color: Colors.grey,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Expanded(
@@ -94,92 +108,157 @@ class _BookingScreenState extends State<BookingScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Doctor Full name',
-                        style: TextStyle(
+                        _bookingScreenController.appState.selectedDoctor.name ??
+                            "",
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        'Doctor email',
-                        style: TextStyle(
+                        _bookingScreenController
+                                .appState.selectedDoctor.email ??
+                            "",
+                        style: const TextStyle(
                           fontSize: 13,
                         ),
                       ),
                       Text(
-                        'Doctor phone number',
-                        style: TextStyle(
+                        _bookingScreenController
+                                .appState.selectedDoctor.phone ??
+                            "",
+                        style: const TextStyle(
                           fontSize: 13,
                         ),
                       ),
-                      Text(
-                        'Speciality',
-                        style: TextStyle(
-                          color: cPrimary,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic,
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              _bookingScreenController
+                                      .appState.selectedDoctor.speciality ??
+                                  "",
+                              style: const TextStyle(
+                                color: cPrimary,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              AppLauncherUtil.launchPhone(
+                                  _bookingScreenController
+                                          .appState.selectedDoctor.phone ??
+                                      "0000000000");
+                            },
+                            borderRadius: BorderRadius.circular(4),
+                            child: const HeroIcon(
+                              HeroIcons.phone,
+                              style: HeroIconStyle.solid,
+                              color: cCardGreen,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              AppLauncherUtil.launchMessage(
+                                  _bookingScreenController
+                                          .appState.selectedDoctor.phone ??
+                                      "0000000000");
+                            },
+                            borderRadius: BorderRadius.circular(4),
+                            child: const HeroIcon(
+                              HeroIcons.chatBubbleLeft,
+                              style: HeroIconStyle.solid,
+                              color: cPrimary,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            CustomTextField(
-              hint: 'Appointment Date',
-              name: 'date',
-              label: 'Appointment Date',
-              readOnly: true,
-              onTap: () {
-                _openDatePicker();
-              },
-            ),
-            const Text('Time Slots'),
-            const SlotSelectIndicator(
-              label: 'Selected',
-            ),
-            const SlotSelectIndicator(
-              label: 'Available',
-            ),
-            const SlotSelectIndicator(
-              label: 'Taken',
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 8.0,
-                  mainAxisSpacing: 8.0,
-                  childAspectRatio: 1.5,
+          ),
+          Divider(
+            color: cGrey,
+          ),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(20.0),
+              children: [
+                CustomTextField(
+                  controller: dateController,
+                  hint: 'Appointment Date',
+                  name: 'date',
+                  label: 'Appointment Date',
+                  readOnly: true,
+                  onTap: () {
+                    _openDatePicker();
+                  },
                 ),
-                itemCount: _bookingScreenController.state.timeSlots.length,
-                itemBuilder: (context, index) {
-                  final timeSlot =
-                      _bookingScreenController.state.timeSlots[index];
-                  return TimeSlotCard(
-                    selectedTime: selectedTime,
-                    timeSlot: timeSlot,
-                    onTap: () {
-                      selectedTime = timeSlot.time;
-                      setState(() {});
-                    },
-                  );
-                },
-              ),
+                CustomTextField(
+                  controller: descriptionController,
+                  hint: 'Description',
+                  name: 'description',
+                  label: 'Description',
+                ),
+                const Text('Time Slots'),
+                const SlotSelectIndicator(
+                  label: 'Selected',
+                ),
+                const SlotSelectIndicator(
+                  label: 'Available',
+                ),
+                const SlotSelectIndicator(
+                  label: 'Taken',
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  alignment: WrapAlignment.center,
+                  children: _bookingScreenController.state.timeSlots
+                      .map((slot) => TimeSlotCard(
+                            selectedTime: selectedTime,
+                            timeSlot: slot,
+                            onTap: () {
+                              selectedTime = slot.time;
+                              setState(() {});
+                            },
+                          ))
+                      .toList(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: CustomMaterialButton(
+                    backgroundColor:
+                        selectedTime == "" || descriptionController.text.isEmpty
+                            ? Colors.grey
+                            : cPrimary,
+                    onPressed:
+                        selectedTime == "" || descriptionController.text.isEmpty
+                            ? () {}
+                            : () {
+                                _bookingScreenController.createBooking(
+                                  dateController.text,
+                                  selectedTime,
+                                  descriptionController.text,
+                                );
+                              },
+                    label: 'Finish Booking',
+                  ),
+                ),
+              ],
             ),
-            CustomMaterialButton(
-              backgroundColor: selectedTime == "" ? Colors.grey : cPrimary,
-              onPressed: () {},
-              label: 'Finish Booking',
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

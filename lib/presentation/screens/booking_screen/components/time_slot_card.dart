@@ -25,7 +25,8 @@ class TimeSlotCard extends StatelessWidget {
       onTap: timeSlot.isTaken ? null : onTap,
       borderRadius: BorderRadius.circular(8.0),
       child: Container(
-        padding: const EdgeInsets.all(8),
+        constraints: const BoxConstraints(maxWidth: 95),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
           color: timeSlot.isTaken
               ? cGrey

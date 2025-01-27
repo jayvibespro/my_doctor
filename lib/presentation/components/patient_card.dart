@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
 
+import '../../core/models/user_model.dart';
+
 /*
 * Created by Jackson Stephen, jacksonsteven436@gmail.com: 27|01|2025
 * */
 
 class PatientCard extends StatelessWidget {
-  const PatientCard({super.key});
+  final UserModel patient;
+
+  const PatientCard({
+    super.key,
+    required this.patient,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,23 +50,23 @@ class PatientCard extends StatelessWidget {
                 size: 30,
               ),
             ),
-            const Expanded(
+            Expanded(
               child: Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Patient full name',
+                      patient.name ?? "",
                       maxLines: 1,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Text(
-                      '0754760596',
-                      style: TextStyle(
+                      patient.phone ?? "",
+                      style: const TextStyle(
                         fontStyle: FontStyle.italic,
                         color: Colors.grey,
                         fontSize: 14,

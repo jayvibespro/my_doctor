@@ -26,10 +26,10 @@ class _PatientsScreenState extends State<PatientsScreen> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: const [
+          /*PatientCard(),
           PatientCard(),
           PatientCard(),
-          PatientCard(),
-          PatientCard(),
+          PatientCard(),*/
         ],
       ),
     );

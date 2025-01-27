@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:my_doctor/core/models/user_model.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
 
 /*
@@ -7,10 +8,12 @@ import 'package:my_doctor/core/utils/constants/colors.dart';
 * */
 
 class DoctorCard extends StatelessWidget {
+  final UserModel doctor;
   final VoidCallback onTap;
 
   const DoctorCard({
     super.key,
+    required this.doctor,
     required this.onTap,
   });
 
@@ -51,23 +54,23 @@ class DoctorCard extends StatelessWidget {
                   size: 30,
                 ),
               ),
-              const Expanded(
+              Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Doctors full name',
+                        doctor.name ?? "",
                         maxLines: 1,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Text(
-                        'Cardiologist',
-                        style: TextStyle(
+                        doctor.speciality ?? "",
+                        style: const TextStyle(
                           fontStyle: FontStyle.italic,
                           color: Colors.grey,
                           fontSize: 14,

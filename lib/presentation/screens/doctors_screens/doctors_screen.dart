@@ -29,7 +29,7 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          DoctorCard(
+          /*  DoctorCard(
             onTap: () {},
           ),
           DoctorCard(
@@ -40,7 +40,7 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
           ),
           DoctorCard(
             onTap: () {},
-          ),
+          ),*/
         ],
       ),
       floatingActionButton: FloatingActionButton(

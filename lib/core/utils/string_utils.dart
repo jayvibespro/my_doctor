@@ -39,8 +39,9 @@ class StringUtils {
     return DateFormat('EEE, d MMM yyy').format(DateTime.parse(date)).toString();
   }
 
-  static String ymdDateFormatter(DateTime dateTime) {
-    return DateFormat('yyy-MM-dd').format(dateTime).toString();
+  static String ymdDateFormatter(DateTime dateTime,
+      {String pattern = 'yyy-MM-dd'}) {
+    return DateFormat(pattern).format(dateTime).toString();
   }
 
   static String dateAndTime(DateTime dateTime) {

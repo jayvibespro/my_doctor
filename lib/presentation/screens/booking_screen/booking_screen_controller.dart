@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_doctor/core/models/api_response_model.dart';
+import 'package:my_doctor/core/models/booking_model.dart';
 import 'package:my_doctor/core/models/time_slot_model.dart';
+import 'package:my_doctor/core/state/app_state.dart';
+import 'package:my_doctor/presentation/components/loading_dialog.dart';
+import 'package:my_doctor/presentation/components/top_snack_bar.dart';
 import 'package:my_doctor/presentation/screens/booking_screen/booking_state.dart';
 
 import '../../../../core/services/data_service.dart';
@@ -14,28 +20,17 @@ class BookingScreenController {
   late void Function(void Function()) _setState;
   late BuildContext _context;
   final BookingState state;
-  late DataService dataService;
+  final AppState appState;
+  late DataService _dataService;
 
-  BookingScreenController(this.state);
+  BookingScreenController(this.state, this.appState);
 
   void initialize(
       void Function(void Function()) setState, BuildContext context) {
     _setState = setState;
     _context = context;
-    dataService = DataService();
+    _dataService = DataService();
     _initializeTimeSlots();
-  }
-
-  Future<void> signIn() async {
-    /* loadingDialog(context);
-    UserModel? newUser = await dataService.signIn(state.user!);
-    Get.back();
-    if (newUser != null) {
-      state.user = newUser;
-      Get.off(
-            () => const HomePage(),
-      );
-    }*/
   }
 
   void _initializeTimeSlots() {
@@ -58,6 +53,65 @@ class BookingScreenController {
       ..addAll(times.map((time) => TimeSlotModel(time: time, isTaken: false)));
 
     _update();
+  }
+
+  Future<void> getBookingsByDateAndDoctor(String date) async {
+    await Future.delayed(const Duration(milliseconds: 600));
+    state.loading = true;
+    _update();
+
+    ApiResponseModel<List<BookingModel>?> response = await _dataService
+        .getBookingsByDateAndDoctor(appState.selectedDoctor.userId ?? "", date);
+    if (response.success) {
+      final Set<String?> bookedTimes =
+          response.data!.map((booking) => booking.time).toSet();
+
+      for (var slot in state.timeSlots) {
+        slot.isTaken = bookedTimes.contains(slot.time);
+      }
+    }
+    state.loading = false;
+    _update();
+  }
+
+  Future<void> createBooking(
+    String date,
+    String time,
+    String description,
+  ) async {
+    loadingDialog(_context);
+
+    BookingModel booking = BookingModel(
+      patientId: appState.userModel?.userId,
+      patientName: appState.userModel?.name,
+      patientPhone: appState.userModel?.phone,
+      doctorId: appState.selectedDoctor.userId,
+      doctorName: appState.selectedDoctor.name,
+      doctorPhone: appState.selectedDoctor.phone,
+      date: date,
+      time: time,
+      createdAt: DateTime.now().toString(),
+      description: description,
+      status: 'PENDING',
+    );
+    ApiResponseModel<bool> response = await _dataService.createBooking(booking);
+    Get.back();
+    if (response.data == true) {
+      if (!_context.mounted) return;
+      topSnackBar(
+        context: _context,
+        message: response.message,
+        snackBarType: SnackBarType.success,
+      );
+      Get.back<bool>(result: true);
+    } else {
+      if (!_context.mounted) return;
+      topSnackBar(
+        context: _context,
+        message: response.message,
+        snackBarType: SnackBarType.error,
+      );
+    }
   }
 
   void _update() {

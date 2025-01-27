@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
 
-import '../../../core/models/user_model/user_model.dart';
+import '../models/user_model.dart';
 
 /*
 * Created by Jackson Stephen, jacksonsteven436@gmail.com: 24|01|2025
@@ -9,4 +9,7 @@ import '../../../core/models/user_model/user_model.dart';
 @singleton
 class AppState {
   UserModel? userModel;
+  List<UserModel> doctors = [];
+  List<UserModel> patients = [];
+  late UserModel selectedDoctor;
 }
