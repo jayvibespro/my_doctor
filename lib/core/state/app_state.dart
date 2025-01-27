@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:my_doctor/core/models/booking_model.dart';
 
 import '../models/user_model.dart';
 
@@ -9,6 +10,7 @@ import '../models/user_model.dart';
 @singleton
 class AppState {
   UserModel? userModel;
+  List<BookingModel> bookings = [];
   List<UserModel> doctors = [];
   List<UserModel> patients = [];
   late UserModel selectedDoctor;

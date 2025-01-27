@@ -175,200 +175,130 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: cBackground,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  const BoxShadow(
-                    color: Colors.white,
-                    offset: Offset(-4, -4),
-                  ),
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 10,
-                    offset: const Offset(1, 1),
-                  ),
-                ],
-              ),
-              child: _homeScreenController.state.loading
-                  ? const CustomLoader()
-                  : Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              const Text(
-                                'Patients',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              Text(
-                                _homeScreenController.appState.patients.length
-                                    .toString(),
-                                style: const TextStyle(
-                                  color: cPrimary,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
+            if (_homeScreenController.appState.userModel?.accountType !=
+                'PATIENT')
+              Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: cBackground,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        const BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-4, -4),
                         ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              const Text(
-                                'Doctors',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              Text(
-                                _homeScreenController.appState.doctors.length
-                                    .toString(),
-                                style: const TextStyle(
-                                  color: cPrimary,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const Expanded(
-                          child: Column(
-                            children: [
-                              Text(
-                                'Bookings',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              Text(
-                                '17',
-                                style: TextStyle(
-                                  color: cPrimary,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          spreadRadius: 1,
+                          blurRadius: 10,
+                          offset: const Offset(1, 1),
                         ),
                       ],
                     ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                HomeCard(
-                  icon: const HeroIcon(
-                    HeroIcons.userGroup,
-                    color: Colors.black,
-                    size: 30,
+                    child: _homeScreenController.state.loading
+                        ? const CustomLoader()
+                        : Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const Text(
+                                      'Patients',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    Text(
+                                      _homeScreenController
+                                          .appState.patients.length
+                                          .toString(),
+                                      style: const TextStyle(
+                                        color: cPrimary,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (_homeScreenController
+                                      .appState.userModel?.accountType ==
+                                  'ADMIN')
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      const Text(
+                                        'Doctors',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Text(
+                                        _homeScreenController
+                                            .appState.doctors.length
+                                            .toString(),
+                                        style: const TextStyle(
+                                          color: cPrimary,
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const Text(
+                                      'Bookings',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    Text(
+                                      _homeScreenController
+                                          .appState.bookings.length
+                                          .toString(),
+                                      style: const TextStyle(
+                                        color: cPrimary,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                   ),
-                  onTap: () {
-                    Get.to(
-                      () => const PatientsScreen(),
-                      transition: Transition.rightToLeft,
-                      curve: Curves.easeInOutBack,
-                      duration: const Duration(
-                        milliseconds: 1200,
-                      ),
-                    );
-                  },
-                  label: 'Patient',
-                  colors: [
-                    cPrimary.withOpacity(0.1),
-                    cPrimary,
-                  ],
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                HomeCard(
-                  icon: const HeroIcon(
-                    HeroIcons.checkBadge,
-                    color: Colors.black,
-                    size: 30,
+                  const SizedBox(
+                    height: 20,
                   ),
-                  onTap: () {
-                    Get.to(
-                      () => const DoctorsScreen(),
-                      transition: Transition.rightToLeft,
-                      curve: Curves.easeInOutBack,
-                      duration: const Duration(
-                        milliseconds: 1200,
-                      ),
-                    );
-                  },
-                  label: 'Doctor',
-                  colors: [
-                    cAccent.withOpacity(0.1),
-                    cAccent,
-                  ],
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                HomeCard(
-                  icon: const HeroIcon(
-                    HeroIcons.calendarDays,
-                    color: Colors.black,
-                    size: 30,
-                  ),
-                  onTap: () {},
-                  label: 'Bookings',
-                  colors: [
-                    cYellow.withOpacity(0.1),
-                    cYellow,
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const SectionHeader(
-              title: 'Recent Bookings',
-            ),
-            const BookingCard(),
-            const BookingCard(),
-            const BookingCard(),
-            SectionHeader(
-              title: 'Doctors',
-              onTap: () {
-                Get.to(
-                  () => const DoctorsScreen(),
-                  transition: Transition.rightToLeft,
-                  curve: Curves.easeInOutBack,
-                  duration: const Duration(
-                    milliseconds: 1200,
-                  ),
-                );
-              },
-            ),
-            _homeScreenController.state.loading
-                ? const CustomLoader()
-                : Column(
-                    children: _homeScreenController.appState.doctors
-                        .map(
-                          (doctor) => DoctorCard(
-                            doctor: doctor,
+                ],
+              ),
+            if (_homeScreenController.appState.userModel?.accountType !=
+                'DOCTOR')
+              Row(
+                children: [
+                  if (_homeScreenController.appState.userModel?.accountType ==
+                      'ADMIN')
+                    Expanded(
+                      child: Row(
+                        children: [
+                          HomeCard(
+                            icon: const HeroIcon(
+                              HeroIcons.userGroup,
+                              color: Colors.black,
+                              size: 30,
+                            ),
                             onTap: () {
-                              _homeScreenController.appState.selectedDoctor =
-                                  doctor;
                               Get.to(
-                                () => const BookingScreen(),
+                                () => const PatientsScreen(),
                                 transition: Transition.rightToLeft,
                                 curve: Curves.easeInOutBack,
                                 duration: const Duration(
@@ -376,34 +306,145 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               );
                             },
+                            label: 'Patient',
+                            colors: [
+                              cPrimary.withOpacity(0.1),
+                              cPrimary,
+                            ],
                           ),
-                        )
-                        .toList(),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
+                    ),
+                  HomeCard(
+                    icon: const HeroIcon(
+                      HeroIcons.checkBadge,
+                      color: Colors.black,
+                      size: 30,
+                    ),
+                    onTap: () {
+                      Get.to(
+                        () => const DoctorsScreen(),
+                        transition: Transition.rightToLeft,
+                        curve: Curves.easeInOutBack,
+                        duration: const Duration(
+                          milliseconds: 1200,
+                        ),
+                      );
+                    },
+                    label: 'Doctor',
+                    colors: [
+                      cAccent.withOpacity(0.1),
+                      cAccent,
+                    ],
                   ),
-            SectionHeader(
-              title: 'Patients',
-              onTap: () {
-                Get.to(
-                  () => const PatientsScreen(),
-                  transition: Transition.rightToLeft,
-                  curve: Curves.easeInOutBack,
-                  duration: const Duration(
-                    milliseconds: 1200,
+                  const SizedBox(
+                    width: 10,
                   ),
-                );
-              },
+                  HomeCard(
+                    icon: const HeroIcon(
+                      HeroIcons.calendarDays,
+                      color: Colors.black,
+                      size: 30,
+                    ),
+                    onTap: () {},
+                    label: 'Bookings',
+                    colors: [
+                      cYellow.withOpacity(0.1),
+                      cYellow,
+                    ],
+                  ),
+                ],
+              ),
+            const SizedBox(
+              height: 20,
+            ),
+            const SectionHeader(
+              title: 'Recent Bookings',
             ),
             _homeScreenController.state.loading
                 ? const CustomLoader()
                 : Column(
-                    children: _homeScreenController.appState.patients
+                    children: _homeScreenController.appState.bookings
                         .map(
-                          (patient) => PatientCard(
-                            patient: patient,
-                          ),
+                          (booking) => BookingCard(booking: booking),
                         )
                         .toList(),
                   ),
+            if (_homeScreenController.appState.userModel?.accountType !=
+                'DOCTOR')
+              Column(
+                children: [
+                  SectionHeader(
+                    title: 'Doctors',
+                    onTap: () {
+                      Get.to(
+                        () => const DoctorsScreen(),
+                        transition: Transition.rightToLeft,
+                        curve: Curves.easeInOutBack,
+                        duration: const Duration(
+                          milliseconds: 1200,
+                        ),
+                      );
+                    },
+                  ),
+                  _homeScreenController.state.loading
+                      ? const CustomLoader()
+                      : Column(
+                          children: _homeScreenController.appState.doctors
+                              .map(
+                                (doctor) => DoctorCard(
+                                  doctor: doctor,
+                                  onTap: () {
+                                    _homeScreenController
+                                        .appState.selectedDoctor = doctor;
+                                    Get.to(
+                                      () => const BookingScreen(),
+                                      transition: Transition.rightToLeft,
+                                      curve: Curves.easeInOutBack,
+                                      duration: const Duration(
+                                        milliseconds: 1200,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )
+                              .toList(),
+                        ),
+                ],
+              ),
+            if (_homeScreenController.appState.userModel?.accountType ==
+                'ADMIN')
+              Column(
+                children: [
+                  SectionHeader(
+                    title: 'Patients',
+                    onTap: () {
+                      Get.to(
+                        () => const PatientsScreen(),
+                        transition: Transition.rightToLeft,
+                        curve: Curves.easeInOutBack,
+                        duration: const Duration(
+                          milliseconds: 1200,
+                        ),
+                      );
+                    },
+                  ),
+                  _homeScreenController.state.loading
+                      ? const CustomLoader()
+                      : Column(
+                          children: _homeScreenController.appState.patients
+                              .map(
+                                (patient) => PatientCard(
+                                  patient: patient,
+                                ),
+                              )
+                              .toList(),
+                        ),
+                ],
+              ),
           ],
         ),
       ),

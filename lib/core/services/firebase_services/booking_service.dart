@@ -13,6 +13,42 @@ import '../../utils/constants/firebase_collections.dart';
 mixin BookingService {
   final _db = FirebaseFirestore.instance;
 
+  Future<ApiResponseModel<List<BookingModel>?>> getAllBookings() async {
+    try {
+      final querySnapshot = await _db.collection(fcBookings).get();
+
+      final bookings = querySnapshot.docs
+          .map((doc) => BookingModel.fromDocumentSnapshot(doc: doc))
+          .toList();
+
+      return ApiResponseModel(
+        data: bookings,
+        statusCode: 200,
+        message: "Bookings fetched successfully",
+      );
+    } on FirebaseAuthException catch (e) {
+      if (kDebugMode) {
+        print("ERROR: ${e.message}");
+      }
+
+      return ApiResponseModel(
+        data: null,
+        statusCode: 500,
+        message: e.message ?? "An unknown error occurred.",
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print("Unexpected ERROR: $e");
+      }
+
+      return ApiResponseModel(
+        data: null,
+        statusCode: 500,
+        message: "An unknown error occurred.",
+      );
+    }
+  }
+
   Future<ApiResponseModel<List<BookingModel>?>> getBookingsByDateAndDoctor(
       String doctorId, String date) async {
     try {

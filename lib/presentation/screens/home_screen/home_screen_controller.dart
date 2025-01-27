@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:my_doctor/presentation/screens/splash_screen/splash_screen.dart';
 
 import '../../../../core/models/api_response_model.dart';
+import '../../../core/models/booking_model.dart';
 import '../../../core/models/user_model.dart';
 import '../../../../core/services/data_service.dart';
 
@@ -35,6 +36,7 @@ class HomeScreenController {
     _dataService = DataService();
     _sessionManager = SessionManager();
     getUsers();
+    getBookings();
   }
 
   Future<void> getUsers() async {
@@ -51,6 +53,29 @@ class HomeScreenController {
       appState.patients = response.data!
           .where((user) => user.accountType == "PATIENT")
           .toList();
+    } else {
+      if (!_context.mounted) return;
+      topSnackBar(
+        context: _context,
+        message: response.message,
+        snackBarType: SnackBarType.error,
+      );
+    }
+    state.loading = false;
+    _update();
+  }
+
+  Future<void> getBookings() async {
+    if (appState.bookings.isEmpty) {
+      state.loading = true;
+    }
+    _update();
+
+    ApiResponseModel<List<BookingModel>?> response =
+        await _dataService.getAllBookings();
+
+    if (response.success) {
+      appState.bookings = response.data!;
     } else {
       if (!_context.mounted) return;
       topSnackBar(

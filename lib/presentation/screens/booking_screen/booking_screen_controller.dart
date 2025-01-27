@@ -51,7 +51,6 @@ class BookingScreenController {
     state.timeSlots
       ..clear()
       ..addAll(times.map((time) => TimeSlotModel(time: time, isTaken: false)));
-
     _update();
   }
 

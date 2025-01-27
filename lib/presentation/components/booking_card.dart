@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:my_doctor/core/models/booking_model.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
+
+import 'booking_status_card.dart';
 
 /*
 * Created by Jackson Stephen, jacksonsteven436@gmail.com: 27|01|2025
 * */
 
 class BookingCard extends StatelessWidget {
-  const BookingCard({super.key});
+  final BookingModel booking;
+
+  const BookingCard({
+    super.key,
+    required this.booking,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,18 +50,18 @@ class BookingCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Row(
+                    Row(
                       children: [
                         Flexible(
                           child: Text(
-                            'Patient name',
+                            booking.patientName ?? "",
                             // maxLines: 1,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                             ),
                           ),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8.0),
                           child: HeroIcon(
                             HeroIcons.arrowRight,
@@ -63,8 +71,8 @@ class BookingCard extends StatelessWidget {
                         ),
                         Flexible(
                           child: Text(
-                            'Doctor full name',
-                            style: TextStyle(
+                            booking.doctorName ?? "",
+                            style: const TextStyle(
                               fontSize: 14,
                             ),
                           ),
@@ -76,10 +84,10 @@ class BookingCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        const Flexible(
+                        Flexible(
                           child: Text(
-                            '12/02/2025 - 09:30 pm',
-                            style: TextStyle(
+                            '${booking.date} - ${booking.time}',
+                            style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
                             ),
@@ -88,22 +96,17 @@ class BookingCard extends StatelessWidget {
                         const SizedBox(
                           width: 10,
                         ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
-                          decoration: BoxDecoration(
-                            color: cCardGreen,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: const Text(
-                            'Pending',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                        BookingStatusCard(
+                          status: booking.status ?? "",
                         ),
                       ],
+                    ),
+                    Text(
+                      booking.description ?? "",
+                      style: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 12,
+                      ),
                     ),
                   ],
                 ),
