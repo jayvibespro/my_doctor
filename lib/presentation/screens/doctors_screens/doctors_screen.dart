@@ -8,6 +8,7 @@ import 'package:my_doctor/presentation/screens/doctors_screens/doctors_screen_co
 import '../../../core/di/di.dart';
 import '../../components/custom_loader.dart';
 import '../../components/doctor_card.dart';
+import '../../components/more_doctor_bottom_sheet.dart';
 import '../booking_screen/booking_screen.dart';
 
 /*
@@ -49,6 +50,16 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                       onTap: () {
                         _doctorsScreenController.appState.selectedDoctor =
                             doctor;
+                        if (_doctorsScreenController
+                                .appState.userModel?.accountType ==
+                            "ADMIN") {
+                          doctorMoreBottomSheet(
+                            context: context,
+                            homeController: _doctorsScreenController,
+                          );
+                          return;
+                        }
+
                         Get.to(
                           () => const BookingScreen(),
                           transition: Transition.rightToLeft,
@@ -62,6 +73,26 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                   )
                   .toList(),
             ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: cPrimary,
+        onPressed: () async {
+          bool? result = await Get.to(
+            () => const CreateDoctorScreen(),
+            transition: Transition.rightToLeft,
+            curve: Curves.easeInOutBack,
+            duration: const Duration(
+              milliseconds: 1200,
+            ),
+          );
+          if (result == true) {
+            _doctorsScreenController.getDoctors();
+          }
+        },
+        child: const HeroIcon(
+          HeroIcons.plus,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }

@@ -13,6 +13,7 @@ import '../../../core/di/di.dart';
 import '../../components/booking_card.dart';
 import '../../components/custom_loader.dart';
 import '../../components/doctor_card.dart';
+import '../../components/more_doctor_bottom_sheet.dart';
 import '../../components/patient_card.dart';
 import '../../components/section_header.dart';
 import '../booking_screen/bookings_screen.dart';
@@ -309,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               );
                             },
-                            label: 'Patient',
+                            label: 'Patients',
                             colors: [
                               cPrimary.withOpacity(0.1),
                               cPrimary,
@@ -337,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
                     },
-                    label: 'Doctor',
+                    label: 'Doctors',
                     colors: [
                       cAccent.withOpacity(0.1),
                       cAccent,
@@ -439,6 +440,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () async {
                                     _homeScreenController
                                         .appState.selectedDoctor = doctor;
+
+                                    if (_homeScreenController
+                                            .appState.userModel?.accountType ==
+                                        "ADMIN") {
+                                      doctorMoreBottomSheet(
+                                        context: context,
+                                        homeController: _homeScreenController,
+                                      );
+                                      return;
+                                    }
+
                                     bool? result = await Get.to(
                                       () => const BookingScreen(),
                                       transition: Transition.rightToLeft,

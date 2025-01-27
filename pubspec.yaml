@@ -18,16 +18,12 @@ dependencies:
   get_it: ^7.2.0
   injectable: ^1.5.3
   heroicons: ^0.9.0
-  pinput: ^3.0.1
   shared_preferences: ^2.2.2
   intl: ^0.19.0
   http: ^1.1.2
-  country_code_picker: ^3.0.0
   url_launcher: ^6.2.2
-  connectivity_plus: ^6.1.0
   path_provider:
   json_annotation: ^4.8.1
-  flutter_rating_bar: ^4.0.1
   image_picker: ^1.0.7
   path: ^1.8.0
   image: ^4.1.6
@@ -41,6 +37,8 @@ dependencies:
   firebase_auth:
   cloud_firestore:
   firebase_database:
+  pdf:
+  open_file:
 
 dev_dependencies:
   flutter_test:

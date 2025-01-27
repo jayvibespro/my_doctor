@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
+import 'package:my_doctor/core/utils/file_utils.dart';
 import 'package:my_doctor/presentation/screens/booking_screen/bookings_screen_controller.dart';
 
 import '../../../core/di/di.dart';
@@ -35,6 +37,22 @@ class _BookingsScreenState extends State<BookingsScreen> {
       appBar: AppBar(
         foregroundColor: Colors.white,
         title: const Text('Bookings'),
+        actions: [
+          if (_bookingsScreenController.appState.userModel?.accountType ==
+              "ADMIN")
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: InkWell(
+                onTap: () {
+                  FileUtils().createBookingsListPdf(
+                      _bookingsScreenController.appState.bookings);
+                },
+                child: const HeroIcon(
+                  HeroIcons.documentArrowDown,
+                ),
+              ),
+            ),
+        ],
       ),
       body: _bookingsScreenController.state.loading
           ? const CustomLoader()

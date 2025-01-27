@@ -37,6 +37,29 @@ class DoctorsScreenController {
     _sessionManager = SessionManager();
   }
 
+  Future<void> getDoctors() async {
+    if (appState.doctors.isEmpty) {
+      state.loading = true;
+    }
+    _update();
+
+    ApiResponseModel<List<UserModel>?> response = await _dataService.getDoctors();
+
+    if (response.success) {
+      appState.doctors =
+          response.data!;
+    } else {
+      if (!_context.mounted) return;
+      topSnackBar(
+        context: _context,
+        message: response.message,
+        snackBarType: SnackBarType.error,
+      );
+    }
+    state.loading = false;
+    _update();
+  }
+
   void _update() {
     if (!_context.mounted) return;
     _setState(() {});

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:my_doctor/core/models/user_model.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
 
 import '../../components/custom_material_button.dart';
@@ -12,7 +13,8 @@ import '../../components/custom_text_field.dart';
 * */
 
 class CreateDoctorScreen extends StatefulWidget {
-  const CreateDoctorScreen({super.key});
+  final UserModel? doctor;
+  const CreateDoctorScreen({super.key, this.doctor});
 
   @override
   State<CreateDoctorScreen> createState() => _CreateDoctorScreenState();
@@ -47,7 +49,7 @@ class _CreateDoctorScreenState extends State<CreateDoctorScreen> {
         backgroundColor: cBackground,
         appBar: AppBar(
           foregroundColor: Colors.white,
-          title: const Text("Create Doctor"),
+          title: Text(widget.doctor != null ? "Edit User" : "Create User"),
         ),
         body: ListView(
           children: [
@@ -58,15 +60,13 @@ class _CreateDoctorScreenState extends State<CreateDoctorScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CustomTextField(
-                      /*initialValue:
-                          _editProfileScreenController.state.user?.fullName,*/
+                    CustomTextField(
+                      initialValue: widget.doctor?.name,
                       hint: "Full Name",
                       name: "fullName",
                     ),
                     CustomTextField(
-                      /*initialValue:
-                          _editProfileScreenController.state.user?.fullName,*/
+                      initialValue: widget.doctor?.email,
                       hint: "Email",
                       name: "email",
                       keyboard: TextInputType.emailAddress,
@@ -78,8 +78,7 @@ class _CreateDoctorScreenState extends State<CreateDoctorScreen> {
                       ),
                     ),
                     CustomTextField(
-                      /*initialValue:
-                          _editProfileScreenController.state.user?.phoneNumber,*/
+                      initialValue: widget.doctor?.phone,
                       hint: "Phone Number",
                       name: "phoneNumber",
                       keyboard: TextInputType.phone,
@@ -91,9 +90,8 @@ class _CreateDoctorScreenState extends State<CreateDoctorScreen> {
                         ],
                       ),
                     ),
-                    const CustomTextField(
-                      /*initialValue:
-                          _editProfileScreenController.state.user?.fullName,*/
+                    CustomTextField(
+                      initialValue: widget.doctor?.speciality,
                       hint: "Speciality",
                       name: "speciality",
                     ),
@@ -106,7 +104,7 @@ class _CreateDoctorScreenState extends State<CreateDoctorScreen> {
                           _editProfileScreenController.editProfile();*/
                         }
                       },
-                      label: "Create",
+                      label: widget.doctor != null ? "Save Changes" : "Create",
                     ),
                     const SizedBox(
                       height: 30,

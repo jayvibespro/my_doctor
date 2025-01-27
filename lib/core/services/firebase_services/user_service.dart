@@ -51,4 +51,43 @@ mixin UserService {
       );
     }
   }
+
+  Future<ApiResponseModel<List<UserModel>?>> getDoctors() async {
+    try {
+      final querySnapshot = await _db
+          .collection(fcUsers)
+          .where('account_type', isEqualTo: 'DOCTOR')
+          .get();
+
+      final users = querySnapshot.docs
+          .map((doc) => UserModel.fromDocumentSnapshot(doc: doc))
+          .toList();
+
+      return ApiResponseModel(
+        data: users,
+        statusCode: 200,
+        message: "Users fetched successfully",
+      );
+    } on FirebaseAuthException catch (e) {
+      if (kDebugMode) {
+        print("ERROR: ${e.message}");
+      }
+
+      return ApiResponseModel(
+        data: null,
+        statusCode: 500,
+        message: e.message ?? "An unknown error occurred.",
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print("Unexpected ERROR: $e");
+      }
+
+      return ApiResponseModel(
+        data: null,
+        statusCode: 500,
+        message: "An unknown error occurred.",
+      );
+    }
+  }
 }
