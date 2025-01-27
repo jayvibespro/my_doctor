@@ -160,6 +160,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 .appState.userModel?.phone ??
                             "",
                       ),
+                      if (_profileScreenController
+                              .appState.userModel?.accountType ==
+                          'DOCTOR')
+                        ProfileDetailsTile(
+                          isAdmin: false,
+                          icon: const Icon(
+                            Icons.approval_rounded,
+                            color: Colors.black54,
+                          ),
+                          title: 'Speciality',
+                          subtitle: _profileScreenController
+                                  .appState.userModel?.speciality ??
+                              "",
+                        ),
                       ProfileDetailsTile(
                         isAdmin: false,
                         icon: const Icon(

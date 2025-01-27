@@ -181,20 +181,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (_formKey.currentState!.saveAndValidate()) {
                         if (accountType.isEmpty) {
                           topSnackBar(
-                              context: context,
-                              message:
-                                  "Please select your desired account type to proceed");
+                            context: context,
+                            message:
+                                "Please select your desired account type to proceed",
+                          );
                           return;
                         }
+                        if (_formKey.currentState?.value["password"].trim() !=
+                            _formKey.currentState?.value["confirmPassword"]
+                                .trim()) {
+                          topSnackBar(
+                            context: context,
+                            message: "Password mismatch",
+                            snackBarType: SnackBarType.error,
+                          );
+                          return;
+                        }
+
                         _signUpScreenController.state.user = UserModel(
                           accountType: accountType,
                           imageUrl: '',
                           email: _formKey.currentState?.value["email"].trim(),
                           name: _formKey.currentState?.value["name"].trim(),
                           phone: _formKey.currentState?.value["phone"].trim(),
-                          speciality: _formKey.currentState?.value["speciality"]
-                                  .trim() ??
-                              "",
+                          speciality:
+                              _formKey.currentState?.value["speciality"] ?? "",
                           password:
                               _formKey.currentState?.value["password"].trim(),
                           createdAt: DateTime.now().toString(),
