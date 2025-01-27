@@ -7,6 +7,7 @@ import 'package:my_doctor/presentation/screens/auth_screens/sign_up_screen/sign_
 import '../../../../core/di/di.dart';
 import '../../../../core/models/user_model/user_model.dart';
 import '../../../../core/utils/constants/colors.dart';
+import '../../../components/chip_select.dart';
 import '../../../components/custom_material_button.dart';
 import '../../../components/custom_outline_button.dart';
 import '../../../components/custom_text_field.dart';
@@ -21,6 +22,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   final _signUpScreenController = getIt<SignUpScreenController>();
+  String accountType = '';
 
   @override
   void initState() {
@@ -68,10 +70,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       Text(
-                        "Create account now\nto book your first appointment.",
-                        textAlign: TextAlign.start,
+                        "Join us now\nto experience our service.",
                         style: TextStyle(
-                          fontSize: 14,
+                          color: Colors.grey,
+                          fontSize: 16,
                         ),
                       ),
                     ],
@@ -96,15 +98,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       fontSize: 26,
                     ),
                   ),
-                  const Text(
-                    "Join us now to experience our service.",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                    ),
-                  ),
                   const SizedBox(
                     height: 20,
+                  ),
+                  const Text(
+                    'Account Type',
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  ChipSelect(
+                    titles: const ["Patient", "Doctor"],
+                    actions: [
+                      () {
+                        accountType = 'PATIENT';
+                        setState(() {});
+                      },
+                      () {
+                        accountType = 'DOCTOR';
+                        setState(() {});
+                      },
+                    ],
+                    selectedChip: accountType,
                   ),
                   const CustomTextField(
                     label: "Full name",
@@ -132,6 +147,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       FormBuilderValidators.equalLength(10),
                     ]),
                   ),
+                  if (accountType == 'DOCTOR')
+                    const CustomTextField(
+                      label: "Speciality",
+                      hint: "Speciality",
+                      name: "speciality",
+                    ),
                   CustomTextField(
                     label: "Password",
                     hint: "********",

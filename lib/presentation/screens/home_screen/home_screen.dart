@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
+import 'package:my_doctor/presentation/screens/booking_screen/booking_screen.dart';
 import 'package:my_doctor/presentation/screens/doctors_screens/doctors_screen.dart';
 import 'package:my_doctor/presentation/screens/patients_screen/patients_screen.dart';
 import 'package:my_doctor/presentation/screens/profile_screen/profile_screen.dart';
@@ -331,10 +332,28 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           DoctorCard(
-            onTap: () {},
+            onTap: () {
+              Get.to(
+                () => const BookingScreen(),
+                transition: Transition.rightToLeft,
+                curve: Curves.easeInOutBack,
+                duration: const Duration(
+                  milliseconds: 1200,
+                ),
+              );
+            },
           ),
           DoctorCard(
-            onTap: () {},
+            onTap: () {
+              Get.to(
+                () => const BookingScreen(),
+                transition: Transition.rightToLeft,
+                curve: Curves.easeInOutBack,
+                duration: const Duration(
+                  milliseconds: 1200,
+                ),
+              );
+            },
           ),
           SectionHeader(
             title: 'Patients',

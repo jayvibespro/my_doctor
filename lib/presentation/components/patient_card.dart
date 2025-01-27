@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
 
+/*
+* Created by Jackson Stephen, jacksonsteven436@gmail.com: 27|01|2025
+* */
+
 class PatientCard extends StatelessWidget {
   const PatientCard({super.key});
 

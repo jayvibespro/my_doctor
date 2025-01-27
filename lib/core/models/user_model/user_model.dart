@@ -13,7 +13,7 @@ class UserModel {
   final String? imageUrl;
   final String? fullName;
   final String? email;
-  final String? gender;
+  final String? speciality;
   String? phoneNumber;
   String? password;
   final bool? isFirstLogin;
@@ -27,7 +27,7 @@ class UserModel {
     this.imageUrl,
     this.fullName,
     this.email,
-    this.gender,
+    this.speciality,
     this.phoneNumber,
     this.password,
     this.isFirstLogin,
