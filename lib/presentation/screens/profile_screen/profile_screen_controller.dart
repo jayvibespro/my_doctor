@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_doctor/core/state/app_state.dart';
 
 import '../../../../core/services/data_service.dart';
 
+import '../../../core/utils/session_manager.dart';
 import '../auth_screens/auth_state.dart';
 
 /*
@@ -12,18 +13,21 @@ import '../auth_screens/auth_state.dart';
 
 @injectable
 class ProfileScreenController {
-  late void Function(void Function()) setState;
-  late BuildContext context;
+  late void Function(void Function()) _setState;
+  late BuildContext _context;
   final AuthState state;
-  late DataService dataService;
+  final AppState appState;
+  late DataService _dataService;
+  late SessionManager _sessionManager;
 
-  ProfileScreenController(this.state);
+  ProfileScreenController(this.state, this.appState);
 
   void initialize(
       void Function(void Function()) setState, BuildContext context) {
-    this.setState = setState;
-    this.context = context;
-    dataService = DataService();
+    _setState = setState;
+    _context = context;
+    _dataService = DataService();
+    _sessionManager = SessionManager();
   }
 
   /*

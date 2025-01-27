@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
+import 'package:my_doctor/presentation/components/top_snack_bar.dart';
 import 'package:my_doctor/presentation/screens/auth_screens/sign_up_screen/sign_up_screen_controller.dart';
 
 import '../../../../core/di/di.dart';
@@ -178,12 +179,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   CustomMaterialButton(
                     onPressed: () {
                       if (_formKey.currentState!.saveAndValidate()) {
+                        if (accountType.isEmpty) {
+                          topSnackBar(
+                              context: context,
+                              message:
+                                  "Please select your desired account type to proceed");
+                          return;
+                        }
                         _signUpScreenController.state.user = UserModel(
+                          accountType: accountType,
+                          imageUrl: '',
                           email: _formKey.currentState?.value["email"].trim(),
-                          /*name: _formKey.currentState?.value["name"].trim(),
-                          phone: _formKey.currentState?.value["phone"].trim(),*/
+                          name: _formKey.currentState?.value["name"].trim(),
+                          phone: _formKey.currentState?.value["phone"].trim(),
+                          speciality: _formKey.currentState?.value["speciality"]
+                                  .trim() ??
+                              "",
                           password:
                               _formKey.currentState?.value["password"].trim(),
+                          createdAt: DateTime.now().toString(),
                         );
                         _signUpScreenController.signUp();
                       }

@@ -75,31 +75,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: CircleAvatar(
                     radius: 140,
                     backgroundColor: cPrimary.withOpacity(0.8),
-                    child: _profileScreenController.state.user?.imageUrl ==
-                                null ||
-                            _profileScreenController.state.user?.imageUrl == ""
-                        ? const HeroIcon(
-                            HeroIcons.userCircle,
-                            color: Colors.black54,
-                            size: 200,
-                          )
-                        : ClipOval(
-                            child: cachedImage != null
-                                ? Image.file(
-                                    cachedImage!,
-                                    fit: BoxFit.cover,
-                                    width: 600.0,
-                                    height: 600.0,
-                                  )
-                                : Image.network(
-                                    _profileScreenController
-                                            .state.user?.imageUrl ??
-                                        "",
-                                    fit: BoxFit.cover,
-                                    width: 600.0,
-                                    height: 600.0,
-                                  ),
-                          ),
+                    child:
+                        _profileScreenController.appState.userModel?.imageUrl ==
+                                    null ||
+                                _profileScreenController
+                                        .appState.userModel?.imageUrl ==
+                                    ""
+                            ? const HeroIcon(
+                                HeroIcons.userCircle,
+                                color: Colors.black54,
+                                size: 200,
+                              )
+                            : ClipOval(
+                                child: cachedImage != null
+                                    ? Image.file(
+                                        cachedImage!,
+                                        fit: BoxFit.cover,
+                                        width: 600.0,
+                                        height: 600.0,
+                                      )
+                                    : Image.network(
+                                        _profileScreenController
+                                                .appState.userModel?.imageUrl ??
+                                            "",
+                                        fit: BoxFit.cover,
+                                        width: 600.0,
+                                        height: 600.0,
+                                      ),
+                              ),
                   ),
                 ),
               ),
@@ -119,16 +122,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.black54,
                         ),
                         title: 'Account type',
-                        subtitle:
-                            _profileScreenController.state.user?.accountType ==
-                                    "ADMIN"
-                                ? "Admin"
-                                : _profileScreenController
-                                            .state.user?.accountType ==
-                                        "DOCTOR"
-                                    ? "Health Provider"
-                                    : "Patient",
+                        subtitle: _profileScreenController
+                                .appState.userModel?.accountType ??
+                            "USER",
                         isAdmin: true,
+                      ),
+                      ProfileDetailsTile(
+                        isAdmin: false,
+                        icon: const Icon(
+                          Icons.person,
+                          color: Colors.black54,
+                        ),
+                        title: 'Full name',
+                        subtitle:
+                            _profileScreenController.appState.userModel?.name ??
+                                "",
                       ),
                       ProfileDetailsTile(
                         isAdmin: false,
@@ -137,8 +145,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.black54,
                         ),
                         title: 'Email address',
-                        subtitle:
-                            _profileScreenController.state.user?.email ?? "",
+                        subtitle: _profileScreenController
+                                .appState.userModel?.email ??
+                            "",
                       ),
                       ProfileDetailsTile(
                         isAdmin: false,
@@ -147,9 +156,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.black54,
                         ),
                         title: 'Phone number',
-                        subtitle:
-                            _profileScreenController.state.user?.phoneNumber ??
-                                "",
+                        subtitle: _profileScreenController
+                                .appState.userModel?.phone ??
+                            "",
                       ),
                       ProfileDetailsTile(
                         isAdmin: false,
@@ -159,14 +168,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         title: 'Created At',
                         subtitle:
-                            "${StringUtils.isoStringToDate(_profileScreenController.state.user?.createdAt ?? DateTime.now().toString())} - ${StringUtils.isoStringTime(_profileScreenController.state.user?.createdAt ?? DateTime.now().toString())}",
+                            "${StringUtils.isoStringToDate(_profileScreenController.appState.userModel?.createdAt ?? DateTime.now().toString())} - ${StringUtils.isoStringTime(_profileScreenController.appState.userModel?.createdAt ?? DateTime.now().toString())}",
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       CustomMaterialButton(
                         onPressed: () async {
-                          Get.to(
+                          await Get.to(
                             () => const EditProfileScreen(),
                             transition: Transition.rightToLeft,
                             curve: Curves.easeInOutBack,
@@ -174,6 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               milliseconds: 1200,
                             ),
                           );
+                          setState(() {});
                         },
                         label: 'Edit profile',
                       ),

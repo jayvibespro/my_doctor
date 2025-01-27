@@ -10,13 +10,14 @@ class SessionManager {
   Future<void> setUserData(UserModel data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('id', data.id ?? "");
+    await prefs.setString('user_id', data.userId ?? "");
     await prefs.setString('account_type', data.accountType ?? "");
     await prefs.setString('image_url', data.imageUrl ?? '');
-    await prefs.setString('full_name', data.fullName ?? '');
+    await prefs.setString('full_name', data.name ?? '');
     await prefs.setString('email', data.email ?? '');
-    await prefs.setString('phone_number', data.phoneNumber ?? '');
+    await prefs.setString('phone_number', data.phone ?? '');
     await prefs.setString('created_at', data.createdAt ?? '');
-    await prefs.setBool('is_first_login', data.isFirstLogin ?? false);
+    await prefs.setString('speciality', data.speciality ?? '');
     await prefs.setBool('is_active', data.isActive ?? false);
   }
 
@@ -29,12 +30,13 @@ class SessionManager {
 
     return UserModel(
       id: id,
+      userId: prefs.getString('user_id'),
       accountType: prefs.getString('account_type'),
       imageUrl: prefs.getString('image_url'),
-      fullName: prefs.getString('full_name'),
+      name: prefs.getString('full_name'),
       email: prefs.getString('email'),
-      phoneNumber: prefs.getString('phone_number'),
-      isFirstLogin: prefs.getBool('is_first_login'),
+      phone: prefs.getString('phone_number'),
+      speciality: prefs.getString('speciality'),
       isActive: prefs.getBool('is_active'),
       createdAt: prefs.getString('created_at'),
     );

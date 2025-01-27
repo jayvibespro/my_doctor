@@ -131,15 +131,6 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     CustomMaterialButton(
                       onPressed: () {
-                        Get.to(
-                          () => const HomeScreen(),
-                          transition: Transition.circularReveal,
-                          curve: Curves.easeInOut,
-                          duration: const Duration(
-                            milliseconds: 1200,
-                          ),
-                        );
-                        return;
                         if (_formKey.currentState!.saveAndValidate()) {
                           _signInScreenController.state.user = UserModel(
                             email: _formKey.currentState?.value["email"].trim(),

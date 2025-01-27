@@ -4,9 +4,11 @@ import 'package:heroicons/heroicons.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
 import 'package:my_doctor/presentation/screens/booking_screen/booking_screen.dart';
 import 'package:my_doctor/presentation/screens/doctors_screens/doctors_screen.dart';
+import 'package:my_doctor/presentation/screens/home_screen/home_screen_controller.dart';
 import 'package:my_doctor/presentation/screens/patients_screen/patients_screen.dart';
 import 'package:my_doctor/presentation/screens/profile_screen/profile_screen.dart';
 
+import '../../../core/di/di.dart';
 import '../../components/booking_card.dart';
 import '../../components/doctor_card.dart';
 import '../../components/patient_card.dart';
@@ -25,6 +27,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _homeScreenController = getIt<HomeScreenController>();
+  String accountType = '';
+
+  @override
+  void initState() {
+    _homeScreenController.initialize(setState, context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,14 +43,14 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         foregroundColor: Colors.white,
         backgroundColor: cPrimary,
-        title: const Text('First Name'),
+        title: Text(_homeScreenController.appState.userModel?.name ?? "Home"),
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: InkWell(
               borderRadius: BorderRadius.circular(30),
-              onTap: () {
-                Get.to(
+              onTap: () async {
+                await Get.to(
                   () => const ProfileScreen(),
                   transition: Transition.rightToLeft,
                   curve: Curves.easeInOutBack,
@@ -47,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     milliseconds: 1200,
                   ),
                 );
+                setState(() {});
               },
               child: const HeroIcon(
                 HeroIcons.userCircle,
@@ -74,27 +86,28 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  HeroIcon(
+                  const HeroIcon(
                     HeroIcons.userCircle,
                     color: Colors.white,
                     size: 60,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
-                    'email@gmail.com',
-                    style: TextStyle(
+                    _homeScreenController.appState.userModel?.email ??
+                        "abc@gmail.com",
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
                     ),
                   ),
                   Text(
-                    'Full Name',
-                    style: TextStyle(
+                    _homeScreenController.appState.userModel?.name ?? "Account",
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
                   ),
@@ -102,8 +115,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             ListTile(
-              onTap: () {
-                Get.to(
+              onTap: () async {
+                await Get.to(
                   () => const ProfileScreen(),
                   transition: Transition.rightToLeft,
                   curve: Curves.easeInOutBack,
@@ -111,6 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     milliseconds: 1200,
                   ),
                 );
+                setState(() {});
               },
               leading: const HeroIcon(
                 HeroIcons.user,
@@ -135,12 +149,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            const ListTile(
-              leading: HeroIcon(
+            ListTile(
+              onTap: _homeScreenController.signOut,
+              leading: const HeroIcon(
                 HeroIcons.arrowRightOnRectangle,
                 color: Colors.black54,
               ),
-              title: Text(
+              title: const Text(
                 'Sign out',
                 style: TextStyle(
                   color: Colors.black,

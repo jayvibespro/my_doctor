@@ -64,20 +64,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     CustomTextField(
                       initialValue:
-                          _editProfileScreenController.state.user?.fullName,
+                          _editProfileScreenController.appState.userModel?.name,
                       hint: "Full Name",
                       name: "fullName",
                     ),
                     CustomTextField(
                       readOnly: true,
-                      initialValue:
-                          _editProfileScreenController.state.user?.email,
+                      initialValue: _editProfileScreenController
+                          .appState.userModel?.email,
+                      keyboard: TextInputType.emailAddress,
                       hint: "Email",
                       name: "email",
                     ),
                     CustomTextField(
-                      initialValue:
-                          _editProfileScreenController.state.user?.phoneNumber,
+                      initialValue: _editProfileScreenController
+                          .appState.userModel?.phone,
                       hint: "Phone Number",
                       name: "phoneNumber",
                       keyboard: TextInputType.phone,
@@ -89,12 +90,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ],
                       ),
                     ),
+                    if (_editProfileScreenController
+                            .appState.userModel?.accountType ==
+                        "DOCTOR")
+                      CustomTextField(
+                        initialValue: _editProfileScreenController
+                            .appState.userModel?.speciality,
+                        hint: "Speciality",
+                        name: "speciality",
+                      ),
                     CustomMaterialButton(
                       onPressed: () {
                         if (_formKey.currentState!.saveAndValidate()) {
-                          _editProfileScreenController.state.user?.phoneNumber =
+                          _editProfileScreenController
+                                  .appState.userModel?.phone =
                               _formKey.currentState?.value["phoneNumber"]
                                   .trim();
+                          _editProfileScreenController
+                                  .appState.userModel?.name =
+                              _formKey.currentState?.value["fullName"].trim();
+                          _editProfileScreenController
+                                  .appState.userModel?.speciality =
+                              _formKey.currentState?.value["speciality"] ?? '';
                           _editProfileScreenController.editProfile();
                         }
                       },

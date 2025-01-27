@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:my_doctor/presentation/screens/home_screen/home_screen.dart';
 import 'package:my_doctor/presentation/screens/splash_screen/splash_screen_controller.dart';
 
 import '../../../core/di/di.dart';
@@ -125,17 +126,6 @@ class _SplashScreenState extends State<SplashScreen>
     _logoScaleAnimationController.forward();
     await _logoTranslateAnimationController.forward();
 
-    /* Get.off(
-      () => const RootScreen(),
-      transition: Transition.circularReveal,
-      curve: Curves.easeInOut,
-      duration: const Duration(
-        milliseconds: 1600,
-      ),
-    );
-
-    return;*/
-
     await Future.delayed(
       const Duration(
         milliseconds: 1600,
@@ -143,14 +133,14 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     if (_splashScreenController.appState.userModel != null) {
-      /*   Get.off(
-        () => const RootScreen(),
+      Get.off(
+        () => const HomeScreen(),
         transition: Transition.circularReveal,
         curve: Curves.easeInOut,
         duration: const Duration(
           milliseconds: 1600,
         ),
-      );*/
+      );
     } else {
       Get.off(
         () => const SignInScreen(),
