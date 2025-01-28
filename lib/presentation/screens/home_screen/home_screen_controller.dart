@@ -75,7 +75,21 @@ class HomeScreenController {
         await _dataService.getAllBookings();
 
     if (response.success) {
-      appState.bookings = response.data!;
+      if (appState.userModel?.accountType == 'PATIENT') {
+        appState.bookings = response.data!
+            .where(
+              (item) => item.patientId == appState.userModel?.userId,
+            )
+            .toList();
+      } else if (appState.userModel?.accountType == 'DOCTOR') {
+        appState.bookings = response.data!
+            .where(
+              (item) => item.doctorId == appState.userModel?.userId,
+            )
+            .toList();
+      } else {
+        appState.bookings = response.data!;
+      }
     } else {
       if (!_context.mounted) return;
       topSnackBar(

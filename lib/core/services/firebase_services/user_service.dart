@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:my_doctor/core/models/api_response_model.dart';
 
 import '../../models/user_model.dart';
 import '../../utils/constants/firebase_collections.dart';
+import '../../utils/image_utils.dart';
 
 /*
 * Created by Jackson Stephen, jacksonsteven436@gmail.com: 27|01|2025
@@ -88,6 +92,32 @@ mixin UserService {
         statusCode: 500,
         message: "An unknown error occurred.",
       );
+    }
+  }
+
+  Future<String?> uploadImage(File image) async {
+    String? imageUrl;
+    final imageName = image.path;
+    final destination = 'images/$imageName';
+    File? compressedImage = await ImageUtils().compressImage(image);
+
+    if (compressedImage == null) {
+      return null;
+    }
+    try {
+      await FirebaseStorage.instance
+          .ref()
+          .child(destination)
+          .putFile(compressedImage)
+          .then((value) async {
+        imageUrl = await value.ref.getDownloadURL();
+      });
+      return imageUrl;
+    } on FirebaseException catch (e) {
+      if (kDebugMode) {
+        print("ERROR: ${e.message}");
+      }
+      return null;
     }
   }
 }

@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../core/models/user_model.dart';
 
@@ -44,11 +46,34 @@ class PatientCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: cGrey,
               ),
-              child: const HeroIcon(
-                HeroIcons.user,
-                color: cPrimary,
-                size: 30,
-              ),
+              child: patient.imageUrl != ''
+                  ? CachedNetworkImage(
+                      imageUrl: patient.imageUrl ?? "",
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: Container(
+                          color: Colors.white,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        color: Colors.grey.shade300,
+                        child: Center(
+                          child: HeroIcon(
+                            HeroIcons.photo,
+                            color: cGrey,
+                            style: HeroIconStyle.solid,
+                            size: 60,
+                          ),
+                        ),
+                      ),
+                      fit: BoxFit.cover,
+                    )
+                  : const HeroIcon(
+                      HeroIcons.user,
+                      color: cPrimary,
+                      size: 30,
+                    ),
             ),
             Expanded(
               child: Padding(

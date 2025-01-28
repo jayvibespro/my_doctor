@@ -37,8 +37,10 @@ dependencies:
   firebase_auth:
   cloud_firestore:
   firebase_database:
+  firebase_storage:
   pdf:
   open_file:
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

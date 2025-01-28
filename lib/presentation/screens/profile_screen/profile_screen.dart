@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
 import 'package:my_doctor/presentation/screens/profile_screen/edit_profile_screen.dart';
 import 'package:my_doctor/presentation/screens/profile_screen/profile_screen_controller.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../core/di/di.dart';
 import '../../../../core/utils/string_utils.dart';
 import '../../components/custom_material_button.dart';
@@ -94,10 +96,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         width: 600.0,
                                         height: 600.0,
                                       )
-                                    : Image.network(
-                                        _profileScreenController
+                                    : CachedNetworkImage(
+                                        imageUrl: _profileScreenController
                                                 .appState.userModel?.imageUrl ??
                                             "",
+                                        placeholder: (context, url) =>
+                                            Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                          color: Colors.grey.shade300,
+                                          child: Center(
+                                            child: HeroIcon(
+                                              HeroIcons.photo,
+                                              color: cGrey,
+                                              style: HeroIconStyle.solid,
+                                              size: 60,
+                                            ),
+                                          ),
+                                        ),
                                         fit: BoxFit.cover,
                                         width: 600.0,
                                         height: 600.0,

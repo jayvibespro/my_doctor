@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
@@ -34,8 +36,16 @@ class EditProfileScreenController {
     _sessionManager = SessionManager();
   }
 
-  Future<void> editProfile() async {
+  Future<void> editProfile(File? image) async {
     loadingDialog(_context);
+
+    if (image != null) {
+      String? imageUrl = await _dataService.uploadImage(image);
+      if (imageUrl != null) {
+        appState.userModel?.imageUrl = imageUrl;
+      }
+    }
+
     ApiResponseModel<UserModel?> response =
         await _dataService.updateUser(appState.userModel!);
     Get.back();

@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:my_doctor/core/models/user_model.dart';
 import 'package:my_doctor/core/utils/constants/colors.dart';
+import 'package:shimmer/shimmer.dart';
 
 /*
 * Created by Jackson Stephen, jacksonsteven436@gmail.com: 27|01|2025
@@ -48,11 +50,34 @@ class DoctorCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: cGrey,
                 ),
-                child: const Icon(
-                  Icons.local_hospital_rounded,
-                  color: cPrimary,
-                  size: 30,
-                ),
+                child: doctor.imageUrl != ''
+                    ? CachedNetworkImage(
+                        imageUrl: doctor.imageUrl ?? "",
+                        placeholder: (context, url) => Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: Container(
+                            color: Colors.white,
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          color: Colors.grey.shade300,
+                          child: Center(
+                            child: HeroIcon(
+                              HeroIcons.photo,
+                              color: cGrey,
+                              style: HeroIconStyle.solid,
+                              size: 60,
+                            ),
+                          ),
+                        ),
+                        fit: BoxFit.cover,
+                      )
+                    : const Icon(
+                        Icons.local_hospital_rounded,
+                        color: cPrimary,
+                        size: 30,
+                      ),
               ),
               Expanded(
                 child: Padding(

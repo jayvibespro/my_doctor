@@ -73,26 +73,29 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                   )
                   .toList(),
             ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: cPrimary,
-        onPressed: () async {
-          bool? result = await Get.to(
-            () => const CreateDoctorScreen(),
-            transition: Transition.rightToLeft,
-            curve: Curves.easeInOutBack,
-            duration: const Duration(
-              milliseconds: 1200,
-            ),
-          );
-          if (result == true) {
-            _doctorsScreenController.getDoctors();
-          }
-        },
-        child: const HeroIcon(
-          HeroIcons.plus,
-          color: Colors.white,
-        ),
-      ),
+      floatingActionButton:
+          _doctorsScreenController.appState.userModel?.accountType == 'ADMIN'
+              ? FloatingActionButton(
+                  backgroundColor: cPrimary,
+                  onPressed: () async {
+                    bool? result = await Get.to(
+                      () => const CreateDoctorScreen(),
+                      transition: Transition.rightToLeft,
+                      curve: Curves.easeInOutBack,
+                      duration: const Duration(
+                        milliseconds: 1200,
+                      ),
+                    );
+                    if (result == true) {
+                      _doctorsScreenController.getDoctors();
+                    }
+                  },
+                  child: const HeroIcon(
+                    HeroIcons.plus,
+                    color: Colors.white,
+                  ),
+                )
+              : const SizedBox(),
     );
   }
 }
